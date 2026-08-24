@@ -20,9 +20,9 @@ import {
   TimelineDot,
   TimelineOppositeContent,
 } from "@mui/lab";
-import { Layout as DashboardLayout } from "/src/layouts/index.js";
-import { HeaderedTabbedLayout } from "/src/layouts/HeaderedTabbedLayout";
-import { ApiGetCall } from "/src/api/ApiCall";
+import { Layout as DashboardLayout } from "../../../layouts/index.js";
+import { HeaderedTabbedLayout } from "../../../layouts/HeaderedTabbedLayout";
+import { ApiGetCall } from "../../../api/ApiCall";
 import { useRouter } from "next/router";
 import {
   Policy,
@@ -82,9 +82,11 @@ const Page = () => {
 
   const { startDate, endDate } = getDateRange(daysToLoad);
 
+  // Hoisted so the header actions invalidate the same query this page reads.
+  const logsQueryKey = `Listlogs-${tenant}-${startDate}-${endDate}`;
   const logsData = ApiGetCall({
     url: `/api/Listlogs?tenant=${tenant}&StartDate=${startDate}&EndDate=${endDate}&Filter=true`,
-    queryKey: `Listlogs-${tenant}-${startDate}-${endDate}`,
+    queryKey: logsQueryKey,
   });
 
   // Get severity icon and color
@@ -149,6 +151,7 @@ const Page = () => {
       tabOptions={tabOptions}
       title={title}
       actions={actions}
+      queryKeys={logsQueryKey}
       actionsData={{}}
       isFetching={logsData.isLoading}
     >

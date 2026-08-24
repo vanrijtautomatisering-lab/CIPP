@@ -6,7 +6,7 @@ import { Edit, Add } from "@mui/icons-material";
 import { CippOffCanvas } from "./CippOffCanvas";
 import CippFormComponent from "./CippFormComponent";
 import { CippApiResults } from "./CippApiResults";
-import { ApiGetCall, ApiPostCall } from "/src/api/ApiCall";
+import { ApiGetCall, ApiPostCall } from "../../api/ApiCall";
 import CippAppPermissionBuilder from "./CippAppPermissionBuilder";
 
 export const CippPermissionSetDrawer = ({
@@ -148,7 +148,9 @@ export const CippPermissionSetDrawer = ({
         onClose={handleDrawerClose}
         size="xl"
       >
-        <Box sx={{ p: 3 }}>
+        {/* The drawer already pays contentPadding on a phone; 24px more on top of it, plus
+            each card's own gutters, leaves the form reading through a third of the screen. */}
+        <Box sx={{ p: { xs: 0, md: 3 } }}>
           <Stack spacing={3}>
             <Typography variant="body2">
               {isEditMode
